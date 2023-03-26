@@ -9,9 +9,12 @@
      * @var Viaje $viaje1
      */
     function main() {
-        //Funcion principal del test
+        //Carga un arreglo con datos de pasajeros predefinida para test
         $pasajeros = cargarPasajeros();
+
+        //Crea un viaje con datos predefinidos
         $viaje1 = new Viaje(0, "Bariloche", count($pasajeros), $pasajeros);
+
         $seguir = true;
         while ($seguir) {
             $valor = menuOpciones();
@@ -61,7 +64,17 @@
                     break;
                 case 5: //Modificar lista de pasajeros
                     //Carga un arreglo con cantidad maxima del $viaje1 pasajeros
-                    $pasajeros = cargarPasajerosManual($viaje1->getCantidadMaxPasajeros());
+                    //Carga tantos pasajeros como se le indique con $viaje1->getCantidadMaxPasajeros
+                    for ($i = 0; $i < $viaje1->getCantidadMaxPasajeros(); $i++) {
+                        echo("Ingreso de datos del pasajero #".$i."\n");
+                        echo("Nombre: ");
+                        $nom = trim(fgets(STDIN));
+                        echo("Apellido: ");
+                        $ape = trim(fgets(STDIN));
+                        echo("Numero de DNI: ");
+                        $dni = (int)(fgets(STDIN));
+                        $pasajeros[$i] = ["Nombre"=>$nom, "Apellido" => $ape, "Numero de DNI" => $dni];
+                    }
                     $viaje1->setPasajeros($pasajeros);
                         break;
                 default: //Salir 
@@ -74,31 +87,8 @@
     }
 
     /**
-     * Metodo que realiza carga de arreglo de pasajeros
-     * @param int $canPasajeros
-     * @var String $nom
-     * @var String $ape
-     * @var String $dni
-     */
-    function cargarPasajerosManual($cantPasajeros) {
-        //Carga tantos pasajeros como se le indique con $cantPasajeros
-        //Retorna arreglo con pasajeros cargados
-        for ($i = 0; $i < $cantPasajeros; $i++) {
-            echo("Ingreso de datos del pasajero #".$i."\n");
-            echo("Nombre: ");
-            $nom = trim(fgets(STDIN));
-            echo("Apellido: ");
-            $ape = trim(fgets(STDIN));
-            echo("Numero de DNI: ");
-            $dni = (int)(fgets(STDIN));
-            $pasajeros[$i] = ["Nombre"=>$nom, "Apellido" => $ape, "Numero de DNI" => $dni];
-        }
-        return $pasajeros;
-    }
-
-    /**
      * Carga de arreglo de pasajeros
-     * @var mixed[] $pasajeros 
+     * @return mixed[] $pasajeros
      */
     function cargarPasajeros() {
         //Carga y retorna un arreglo de 10 pasajeros predefinidos
@@ -130,7 +120,7 @@
         2) Mostrar datos de pasajeros.
         3) Modificar datos del viaje.
         4) Modificar datos de un pasajero.
-        5) Modificar lista de pasajeros.
+        5) Modificar lista completa de pasajeros.
         6) Salir
         --------------------------------------------\n
         END;
@@ -153,5 +143,4 @@
         } while (!$valida);
         return $opcion; 
     }
-
 ?>

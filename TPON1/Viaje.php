@@ -51,12 +51,15 @@
         }
 
         /**
-         * Asigna array de pasajeros
+         * Asigna array de pasajeros.
+         * Retorna un booleano que indica si se pudo realizar la asignacion.
          * @param mixed[] $pas (array de pasajeros cargados)
          * @var boolean $exito (array ingresado no se excede de pasajeros)
+         * @return boolean
          */
         public function setPasajeros($pas) {
-            //Si la longitud de $pas es mayor a cantidad maxima, no permite realizar la carga
+            //Si la longitud de $pas es mayor a cantidad maxima, no permite realizar la asignacion
+            //Retorna falso si no se realizó la carga
             if (count($pas) <= $this->cantidadMaxPasajeros) {
                 $this->pasajeros = $pas;
                 $exito = true;
@@ -68,11 +71,13 @@
 
         //Modifica array $pasajeros
         /**
-         * Modifica un pasajero de la $pos del arreglo $this->pasajeros
+         * Modifica un pasajero de la $pos del arreglo $this->pasajeros.
+         * Retorna un booleano que indica si se pudo realizar la modificacion.
          * @param int $pos (posicion dentro del arreglo)
          * @param String $nom
          * @param String $ap
          * @param String $dni
+         * @return boolean
          */
         public function setPasajero($pos, $nom, $ap, $dni) {
             /*Si la $pos de pasajero no se encuentra dentro de $this->pasajeros, 
