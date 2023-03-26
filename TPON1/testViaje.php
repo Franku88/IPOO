@@ -11,7 +11,7 @@
     function main() {
         //Carga un arreglo con datos de pasajeros predefinida para test
         $pasajeros = cargarPasajeros();
-
+        
         //Crea un viaje con datos predefinidos
         $viaje1 = new Viaje(0, "Bariloche", count($pasajeros), $pasajeros);
 
@@ -20,9 +20,11 @@
             $valor = menuOpciones();
             switch ($valor) {
                 case 1: //Mostrar datos del viaje
+                    echo("<Datos del viaje #".$viaje1->getCodigo().">\n");
                     echo($viaje1->toString());
                     break;
                 case 2: //Mostrar datos de pasajeros
+                    echo("<Pasajeros del viaje #".$viaje1->getCodigo().">\n");
                     print_r($viaje1->getPasajeros());
                     break;
                 case 3: //Modificar datos del viaje
@@ -37,8 +39,8 @@
                     $viaje1->setCantidadMaxPasajeros($nuevaCantidadMax);
                     $sinPasajeros = [];
                     $viaje1->setPasajeros($sinPasajeros);
-                    echo("¡Cambios realizados con exito!\n");
-                    echo("Realice la carga de pasajeros con las opciones 4 o 5");
+                    echo("<Cambios realizados con exito>\n");
+                    echo("<Realice la carga de pasajeros con las opciones 4 o 5>");
                     
                     break;
                 case 4: //Modificar datos de un pasajero
@@ -54,13 +56,13 @@
                     } while ($sigue);
                     echo("Ingreso de datos del pasajero #".$pos."\n");
                     echo("Nombre: ");
-                    $nom = fgets(STDIN);
+                    $nom = trim(fgets(STDIN));
                     echo("Apellido: ");
-                    $ape = fgets(STDIN);
+                    $ape = trim(fgets(STDIN));
                     echo("Numero de DNI: ");
-                    $dni = fgets(STDIN);
+                    $dni = (int)fgets(STDIN);
                     $viaje1->setPasajero($pos, $nom, $ape, $dni);
-                    echo("Carga exitosa.");
+                    echo("<Carga exitosa>");
                     break;
                 case 5: //Modificar lista de pasajeros
                     //Carga un arreglo con cantidad maxima del $viaje1 pasajeros
@@ -73,9 +75,8 @@
                         $ape = trim(fgets(STDIN));
                         echo("Numero de DNI: ");
                         $dni = (int)(fgets(STDIN));
-                        $pasajeros[$i] = ["Nombre"=>$nom, "Apellido" => $ape, "Numero de DNI" => $dni];
+                        $viaje1->setPasajero($i, $nom, $ape, $dni);
                     }
-                    $viaje1->setPasajeros($pasajeros);
                         break;
                 default: //Salir 
                     //Puesto en default por si se agregan otras opciones
@@ -104,7 +105,6 @@
         $pasajeros[9] = ["Nombre"=>"Bruno", "Apellido" => "Bassi", "Numero de DNI" => "00000009"];
         return $pasajeros;
     }
-
 
     /**
      * Imprime un menu de opciones y retorna la eleccion del usuario
