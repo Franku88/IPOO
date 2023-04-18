@@ -84,9 +84,7 @@
          * Modifica un pasajero de la $pos del arreglo $this->pasajeros.
          * Retorna un booleano que indica si se pudo realizar la modificacion.
          * @param int $pos (posicion dentro del arreglo)
-         * @param String $nom
-         * @param String $ap
-         * @param String $dni
+         * @param Pasajero $pasajero
          * @return boolean
          */
         public function setPasajero($pos, $pasajero) {
@@ -109,6 +107,11 @@
             return $cadena;
         }
 
+        /**
+         * Verifica si un pasajero se encuentra en el viaje
+         * @param Pasajero $pasajero
+         * @return boolean $seEncuentra
+         */
         public function estaEnViaje($pasajero){
             $seEncuentra = false;
             $i = 0;

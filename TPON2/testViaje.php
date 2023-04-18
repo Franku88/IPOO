@@ -8,6 +8,7 @@
      * Algoritmo principal
      * @var Pasajero[] $pasajeros
      * @var Viaje $viaje1
+     * @var ResponsableV $responsable
      */
     function main() {
         //Carga un arreglo con datos de pasajeros predefinida para test y un responsable de viaje
