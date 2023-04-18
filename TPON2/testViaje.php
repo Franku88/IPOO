@@ -87,7 +87,7 @@
                         echo("Apellido: ");
                         $ape = trim(fgets(STDIN));
                         echo("Numero de DNI: ");
-                        $dni = (int)(fgets(STDIN));
+                        $dni = trim(fgets(STDIN));
                         echo("Telefono: ");
                         $tel = trim(fgets(STDIN));
                         $pasajero = new Pasajero($nom, $ape, $dni, $tel);
