@@ -55,9 +55,17 @@
             $this->precioFinal = $precioF;
         }
 
-        public function _toString() {
-            $cadena = "Numero: ".$this->numero."\n Fecha: ".$this->fecha."\n Cliente: (".$this->cliente.")\n Motos: (".$this->coleccionMotos.
-            ")\n Precio final: ".$this->precioFinal;
+        public function mostrarMotos(){
+            $cad = "";
+            foreach ($this->getColeccionMotos() as $moto) {
+                $cad = $cad + $moto->toString() + " \n";
+            }
+            return $cad;
+        }
+
+        public function __toString() {
+            $cadena = "Numero: ".$this->getNumero()."\n Fecha: ".$this->getFecha()."\n Cliente: (".($this->getCliente())->__toString().")
+            \n Motos: (".$this->mostrarMotos().")\n Precio final: ".$this->getPrecioFinal();
             return $cadena;
         }
 
@@ -68,14 +76,16 @@
         public function incorporarMoto($moto) {
             if ($moto->getActiva()) {
                 //Agrega $moto a la coleccion
-                $posicion = count($this->coleccionMotos);
-                $this->coleccionMotos[$posicion] = $moto;
+                $coleccion = $this->getColeccionMotos();
+                $posicion = count($coleccion);
+                $coleccion[$posicion] = $moto;
+                $this->setColeccionMotos($coleccion);
                 
                 //Calculo el nuevo precio final sumando el precio de $moto al precio final actual
-                $nuevoPrecio = $this->precioFinal + $moto->darPrecioVenta();
+                $nuevoPrecio = $this->getPrecioFinal() + $moto->darPrecioVenta();
 
                 //Establezco el nuevo precio final
-                $this->precioFinal->setPrecioFinal($nuevoPrecio);
+                $this->setPrecioFinal($nuevoPrecio);
             }
         }
     }

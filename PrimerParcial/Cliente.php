@@ -32,11 +32,9 @@
         public function getDadoDeBaja() {
             return $this->dadoDeBaja;
         }
-
         public function getTipoDni() {
             return $this->tipoDni;
         }
-
         public function getDni() {
             return $this->numeroDni;
         }
@@ -51,11 +49,17 @@
         public function setDadoDeBaja($deBaja) {
             $this->dadoDeBaja = $deBaja;
         }
+        public function setTipoDni($tDni) {
+            $this->tipoDni = $tDni;
+        }
+        public function setDni($nDni) {
+            $this->numeroDni = $nDni;
+        }
 
-        public function _toString() {
+        public function __toString() {
             /*Metodo que retorna una cadena con la información de la instancia de Cliente*/
-            $cadena = "Nombre: ".$this->nombre.", Apellido: ".$this->apellido.", Dado de baja: ".$this->dadoDeBaja.
-            ", Tipo de DNI: ".$this->tipoDni.", Numero de DNI: ".$this->numeroDni;
+            $cadena = "Nombre: ".$this->getNombre().", Apellido: ".$this->getApellido().", Dado de baja: ".$this->getDadoDeBaja().
+            ", Tipo de DNI: ".$this->getTipoDni().", Numero de DNI: ".$this->getDni();
             return $cadena;
         }
     }

@@ -38,7 +38,7 @@
         public function getDescripcion() {
             return $this->descripcion;   
         }
-        public function getPocentajeIncrementoAnual() {
+        public function getPorcentajeIncrementoAnual() {
             return $this->porcentajeIncrementoAnual;   
         }
         public function getActiva() {
@@ -46,6 +46,9 @@
         }
 
         //Modificadores
+        public function setCodigo($cod) {
+            $this->codigo = $cod;
+        }
         public function setCosto($cost) {
             $this->costo = $cost;   
         }
@@ -62,7 +65,7 @@
             $this->activa = $act;   
         }
 
-        public function _toString() {
+        public function __toString() {
             $cadena = "Codigo: ".$this->codigo.", Costo: ".$this->costo.", Anio: ".$this->anio.", Descripcion: ".$this->descripcion.
             ", Porcentaje de incremento anual: ".$this->porcentajeIncrementoAnual.", Esta activa: ".$this->activa;
             return $cadena;
@@ -72,9 +75,9 @@
             //Retorna el valor por el cual puede ser vendida la moto
             $montoFinal = -1;
             if ($this->activa) {
-                $compra = $this->costo;
-                $anio = intval(date("Y")); //Asigno el anio actual como un int
-                $montoFinal =  $compra + $compra * ($anio * $this->porcentajeIncrementoAnual);
+                $compra = $this->getCosto();
+                $anioActual = intval(date("Y")); //Asigno el anio actual como un int
+                $montoFinal =  $compra + $compra * (($anioActual- $this->getAnio()) * $this->getPorcentajeIncrementoAnual());
             }
             return $montoFinal;
         }
