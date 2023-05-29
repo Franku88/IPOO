@@ -13,11 +13,11 @@
          * @param Cliente $cli
          * @param double $precioF
          */
-        public function __construct($num, $fe, $cli, $precioF) {
+        public function __construct($num, $fe, $cli, $colMotos, $precioF) {
             $this->numero = $num;
             $this->fecha = $fe;
             $this->cliente = $cli;
-            $this->coleccionMotos = [];
+            $this->coleccionMotos = $colMotos;
             $this->precioFinal = $precioF;
         } 
     
@@ -58,15 +58,24 @@
         public function mostrarMotos(){
             $cad = "";
             foreach ($this->getColeccionMotos() as $moto) {
-                $cad = $cad + $moto->toString() + " \n";
+                $cad = $cad.$moto->__toString()." \n";
             }
             return $cad;
         }
 
         public function __toString() {
-            $cadena = "Numero: ".$this->getNumero()."\n Fecha: ".$this->getFecha()."\n Cliente: (".($this->getCliente())->__toString().")
-            \n Motos: (".$this->mostrarMotos().")\n Precio final: ".$this->getPrecioFinal();
-            return $cadena;
+            $num = $this->getNumero();
+            $fe = $this->getFecha();
+            $cli = ($this->getCliente())->__toString();
+            $colM = $this->mostrarMotos();
+            $precioF = $this->getPrecioFinal();
+            return <<<END
+                Numero: $num
+                Fecha: $fe
+                Cliente: $cli
+                Motos:
+            $colM    Precio final: $precioF
+            END;
         }
 
         /**

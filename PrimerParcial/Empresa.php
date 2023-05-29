@@ -64,30 +64,32 @@
 
         public function mostrarClientes(){
             $cad = "";
-            foreach ($this->getColeccionClientes() as $cliente) {
-                $cad = $cad + $cliente->toString() + " \n";
+            $colClientes = $this->getColeccionClientes();
+            foreach ($colClientes as $cliente) {
+                $cad = $cad.$cliente->__toString()." \n";
             }
             return $cad;
         }
 
         public function mostrarMotos(){
             $cad = "";
-            foreach ($this->getColeccionMotos() as $moto) {
-                $cad = $cad + $moto->toString() + " \n";
+            $colMotos = $this->getColeccionMotos();
+            foreach ($colMotos as $moto) {
+                $cad = $cad.$moto->__toString()." \n";
             }
             return $cad;
         }
 
         public function mostrarVentas(){
             $cad = "";
-            foreach ($this->getColeccionVentasRealizadas() as $venta) {
-                $cad = $cad + $venta->toString() + " \n";
+            $colVentas = $this->getColeccionVentasRealizadas();
+            foreach ($colVentas as $venta) {
+                $cad = $cad.'-'.$venta->__toString()." \n";
             }
             return $cad;
         }
         
-        public function __toString()
-        {
+        public function __toString() {
             $info_clientes = $this->mostrarClientes();
             $info_motos = $this->mostrarMotos();
             $info_ventas = $this->mostrarVentas();
@@ -97,11 +99,11 @@
                 Denominacion: $denom
                 Direccion:  $dir
                 Clientes: 
-                    $info_clientes
+            $info_clientes
                 Motos para vender:
-                    $info_motos
+            $info_motos
                 Ventas realizadas: 
-                    $info_ventas
+            $info_ventas
             END;
         }
 
@@ -153,13 +155,16 @@
                         $cantidadMotosVenta++;
                     }
                 }
-                if (count($motosVenta()) > 0) {
-                    //Cantidad de ventas realizadas me da el numero y posicion de venta actual 
-                    $numVenta = count($this->getColeccionVentasRealizadas());
+                if (count($motosVenta) > 0) {
+                    $colVentasRealizadas = $this->getColeccionVentasRealizadas();
+                    //Cantidad de ventas realizadas me da el numero y posicion de venta actual
+                    $numVenta = count($colVentasRealizadas);
                     //Creo venta
-                    $venta = new Venta($numVenta, date('d-m-Y'), $cliente, $montoFinal);
+                    $venta = new Venta($numVenta, date('d-m-Y'), $cliente, $motosVenta, $montoFinal);
                     //Agrego venta creada a coleccion de ventas realizadas
-                    $this->getColeccionVentasRealizadas()[$numVenta] = $venta;
+                    $colVentasRealizadas[$numVenta] = $venta;
+                    //Seteo nueva coleccion modificada
+                    $this->setColeccionVentasRealizadas($colVentasRealizadas);
                 } else {
                     //Como ninguna moto se encontro/pudo vender, retorna un numero negativo
                     $montoFinal = -1;
@@ -175,7 +180,7 @@
             $ventasDeCliente = [];
             $j = count($ventasDeCliente);
             $cantidadVentas = count($this->getColeccionVentasRealizadas());
-            for ($i=0; $i < $cantidadVentas; $i++) {
+            for ($i = 0; $i < $cantidadVentas; $i++) {
                 $encontrado = false;
                 $cliente = $this->getColeccionVentasRealizadas()[$i]->getCliente();
                 $encontrado = ($cliente->getTipoDni() == $tipo) && ($cliente->getDni() == $numDoc);

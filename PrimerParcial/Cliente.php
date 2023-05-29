@@ -58,7 +58,7 @@
 
         public function __toString() {
             /*Metodo que retorna una cadena con la información de la instancia de Cliente*/
-            $cadena = "Nombre: ".$this->getNombre().", Apellido: ".$this->getApellido().", Dado de baja: ".$this->getDadoDeBaja().
+            $cadena = "Nombre: ".$this->getNombre().", Apellido: ".$this->getApellido().", Dado de baja: ".(($this->getDadoDeBaja())?'Si':'No').
             ", Tipo de DNI: ".$this->getTipoDni().", Numero de DNI: ".$this->getDni();
             return $cadena;
         }
