@@ -77,7 +77,7 @@
             if ($this->activa) {
                 $compra = $this->getCosto();
                 $anioActual = intval(date("Y")); //Asigno el anio actual como un int
-                $montoFinal =  $compra + $compra * (($anioActual- $this->getAnio()) * $this->getPorcentajeIncrementoAnual());
+                $montoFinal =  $compra + $compra * (($anioActual - $this->getAnio()) * $this->getPorcentajeIncrementoAnual());
             }
             return $montoFinal;
         }
