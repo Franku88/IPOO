@@ -67,7 +67,7 @@
 
         public function __toString() {
             $cadena = "Codigo: ".$this->codigo.", Costo: ".$this->costo.", Anio: ".$this->anio.", Descripcion: ".$this->descripcion.
-            ", Porcentaje de incremento anual: ".$this->porcentajeIncrementoAnual.", Esta activa: ".$this->activa;
+            ", Porcentaje de incremento anual: ".$this->porcentajeIncrementoAnual.", Esta activa: ".(($this->activa)?"Si":"No");
             return $cadena;
         }
 
