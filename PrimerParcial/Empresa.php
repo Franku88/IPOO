@@ -148,8 +148,8 @@
                     }
                     //Si la moto se encontro y la misma esta activa
                     if ($encontrado && $colMotos[$j-1]->getActiva()) {
-                        //Se aumenta monto de la venta
-                        $montoFinal = $montoFinal + $colMotos[$j-1]->getCosto();
+                        //Se aumenta monto de la venta usando el precio venta
+                        $montoFinal = $montoFinal + $colMotos[$j-1]->darPrecioVenta();
                         //Se agrega moto a la venta
                         $motosVenta[$cantidadMotosVenta] = $colMotos[$j-1];
                         $cantidadMotosVenta++;
