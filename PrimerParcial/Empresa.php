@@ -131,12 +131,15 @@
             //Si el cliente no esta dado de baja, realiza la verificacion de codigos de moto
             //Si el cliente esta dado de baja o ninguna moto se pudo vender, se retorna un numero negativo
             if (!$cliente->getDadoDeBaja()) {
-                $montoFinal = 0;
-                $motosVenta = [];
-                $cantidadMotosVenta = 0;
                 $cantCodigos = count($codigosMoto);
                 $colMotos = $this->getColeccionMotos();
                 $cantMotos = count($colMotos);
+                $colVentasRealizadas = $this->getColeccionVentasRealizadas();
+                //Cantidad de ventas realizadas me da el numero y posicion de venta actual
+                $numVenta = count($colVentasRealizadas);
+                //Creo venta
+                $venta = new Venta($numVenta, date('d-m-Y'), $cliente, [], 0);
+                //Agrego venta creada a coleccion de ventas realizadas
                 //Por cada codigo de $codigosMoto
                 for ($i = 0; $i < $cantCodigos; $i++) {
                     $j = 0;
@@ -147,24 +150,16 @@
                         $j++;
                     }
                     //Si la moto se encontro y la misma esta activa
-                    if ($encontrado && $colMotos[$j-1]->getActiva()) {
-                        //Se aumenta monto de la venta usando el precio venta
-                        $montoFinal = $montoFinal + $colMotos[$j-1]->darPrecioVenta();
-                        //Se agrega moto a la venta
-                        $motosVenta[$cantidadMotosVenta] = $colMotos[$j-1];
-                        $cantidadMotosVenta++;
+                    if ($encontrado) {
+                        $venta->incorporarMoto($colMotos[$j-1]);
                     }
                 }
-                if (count($motosVenta) > 0) {
-                    $colVentasRealizadas = $this->getColeccionVentasRealizadas();
-                    //Cantidad de ventas realizadas me da el numero y posicion de venta actual
-                    $numVenta = count($colVentasRealizadas);
-                    //Creo venta
-                    $venta = new Venta($numVenta, date('d-m-Y'), $cliente, $motosVenta, $montoFinal);
-                    //Agrego venta creada a coleccion de ventas realizadas
+                if (count($venta->getColeccionMotos()) > 0) {
+                    //Agrego venta a la coleccion
                     $colVentasRealizadas[$numVenta] = $venta;
                     //Seteo nueva coleccion modificada
                     $this->setColeccionVentasRealizadas($colVentasRealizadas);
+                    $montoFinal = $venta->getPrecioFinal();
                 } else {
                     //Como ninguna moto se encontro/pudo vender, retorna un numero negativo
                     $montoFinal = -1;
