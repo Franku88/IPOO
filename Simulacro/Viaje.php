@@ -1,12 +1,8 @@
 <?php
-class Viaje
-{
-
+class Viaje {
     /*Se registra la siguiente información: destino, hora de partida, hora de llegada, número,
     importe, fecha, cantidad de asientos totales, cantidad de asientos disponibles, y una
-    referencia a la persona responsable del viaje.    
-    */
-    
+    referencia a la persona responsable del viaje.*/
     private $destino;
     private $horaPartida;
     private $horaLlegada;
@@ -25,9 +21,8 @@ class Viaje
         $importe,
         $fecha,
         $cantAsientosTotales,
-        $cantAsientosOcupados,
-        $personaResponsable
-    ) {
+        $cantAsientosDisponibles,
+        $personaResponsable) {
         $this->destino = $destino;
         $this->horaPartida = $horaPartida;
         $this->horaLlegada = $horaLlegada;
@@ -35,7 +30,7 @@ class Viaje
         $this->importe = $importe;
         $this->fecha = $fecha;
         $this->cantAsientosTotales = $cantAsientosTotales;
-        $this->cantAsientosDisponibles = $cantAsientosOcupados;
+        $this->cantAsientosDisponibles = $cantAsientosDisponibles;
         $this->objResponsable = $personaResponsable;
     }
 
@@ -106,7 +101,7 @@ class Viaje
         $this->cantAsientosTotales = $cantAsientosTotales;
     }
 
-    public function setCantAsientosOcupados($cantAsientosDisponibles){
+    public function setCantAsientosDisponibles($cantAsientosDisponibles){
         $this->cantAsientosDisponibles = $cantAsientosDisponibles;
     }
 
@@ -141,10 +136,9 @@ class Viaje
         if ($cantDisp-$cantAsientos>0){
             $exito =true;
             $cantDisponibles =$cantDisp-$cantAsientos;
-            $this->setCantasientosdisponibles($cantDisponibles);
+            $this->setCantAsientosDisponibles($cantDisponibles);
         }           
         return $exito;
-
     }
 }
 ?>

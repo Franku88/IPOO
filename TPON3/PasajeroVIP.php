@@ -1,6 +1,6 @@
 <?php
     include 'Pasajero.php';
-    Class PasajeroVIP extends Pasajero {
+    class PasajeroVIP extends Pasajero {
         private $numeroViajeroFrecuente;
         private $millas;
 
