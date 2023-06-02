@@ -33,11 +33,12 @@
         }
 
         public function calcularImporteViaje() {
-            //Realiza el calculo del importe final de un viaje con su descuento y lo asigna
-            parent::calcularImporteViaje();
-            $imp = $this->getImporte();
-            $imp = $imp * (1 - (($this->getPorcentajeDescuento())/100));
+            //Realiza el calculo del importe de un viaje nacional con su descuento aplicado al monto base y lo asigna
+            $montoB = $this->getMontoBase() * (1 - ($this->getPorcentajeDescuento()/100));
+            $asientosT = $this->getCantAsientosTotales();
+            $imp =  $montoB + ($montoB * (($asientosT - $this->getCantAsientosDisponibles())/$asientosT));
             $this->setImporte($imp);
+            return $imp;
         }
     }
 ?>

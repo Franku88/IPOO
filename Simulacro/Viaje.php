@@ -133,7 +133,8 @@
             "\nFecha: " . $this->getFecha() . 
             "\nCantidad de asientos totales: " . $this->getCantAsientosTotales() . 
             "\nCantidad de asientos ocupados: " . $this->getCantAsientosDisponibles() . 
-            "\nPersona responsable: " . $this->getResponsable() . "\n";
+            "\nPersona responsable: " . $this->getResponsable() . 
+            "\nMonto base: $".$this->getMontoBase() . "\n";
         }
 
     /*    asignarAsientosDisponibles($catAsientos)        

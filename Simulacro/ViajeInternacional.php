@@ -45,11 +45,11 @@
         }
 
         public function calcularImporteViaje() {
-            //Realiza el calculo del importe final de un viaje con sus impuestos y lo asigna
-            parent::calcularImporteViaje();
-            $imp = $this->getImporte();
-            $imp = $imp * (1 + (($this->getPorcentajeImpuestos()/100)));
+            //Realiza el calculo del importe de un viaje internacional con sus impuestos aplicados al importe total y lo asigna
+            $imp = parent::calcularImporteViaje();
+            $imp = $imp * (1 + ($this->getPorcentajeImpuestos()/100));
             $this->setImporte($imp);
+            return $imp;
         }
 
     }
