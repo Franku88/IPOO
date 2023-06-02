@@ -70,7 +70,7 @@
             $colM = $this->mostrarMotos();
             $precioF = $this->getPrecioFinal();
             return <<<END
-                Numero: $num
+                - Numero: $num
                 Fecha: $fe
                 Cliente: $cli
                 Motos:
@@ -96,6 +96,55 @@
                 //Establezco el nuevo precio final
                 $this->setPrecioFinal($nuevoPrecio);
             }
+        }
+
+        /**
+         * Metodo que realiza sumatoria de monto de las motos nacionales
+         * relacionadas a la venta actual
+         * @return int
+         */
+        public function retornarTotalVentaNacional() {
+            $motos = $this->getColeccionMotos();
+            $totalNacional = 0;
+            foreach($motos as $moto) {
+                if (get_class($moto) == 'MotoNacional') {
+                    $totalNacional = $totalNacional + $moto->darPrecioVenta();
+                }
+            }
+            return $totalNacional;
+        }
+
+        /**
+         * Metodo que retorna una coleccion de motos importadas 
+         * relacionadas a la venta actual
+         * @return MotoImportada[]
+         */
+        public function retornarMotosImportadas() {
+            $motos = $this->getColeccionMotos();
+            $importadas = [];
+            foreach ($motos as $moto) {
+                if (get_class($moto) == 'MotoImportada') {
+                    $importadas[] = $moto; 
+                }
+            }
+            return $importadas;
+        }
+
+        /**
+         * Metodo que retorna verdadero si la venta tiene al menos
+         * una moto importada, retorna falso si todas son nacionales
+         * @return boolean
+         */
+        public function tieneMotoImportada() {
+            $motos = $this->getColeccionMotos();
+            $i = 0;
+            $cantMotos = count($motos);
+            $encontrado = false;
+            while (!$encontrado && $i < $cantMotos) {
+                $encontrado = get_class($motos[$i]) == 'MotoImportada';
+                $i++;
+            }
+            return $encontrado;
         }
     }
 ?>

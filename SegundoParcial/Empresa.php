@@ -84,7 +84,7 @@
             $cad = "";
             $colVentas = $this->getColeccionVentasRealizadas();
             foreach ($colVentas as $venta) {
-                $cad = $cad.'-'.$venta->__toString()." \n";
+                $cad = $cad.$venta->__toString()." \n";
             }
             return $cad;
         }
@@ -186,5 +186,35 @@
             }
             return $ventasDeCliente;
         }
+
+        /**
+         * Metodo que retorna el importe total de ventas nacionales
+         * relacionadas a la empresa actual
+         */
+        public function informarSumaVentasNacionales() {
+            $ventas = $this->getColeccionVentasRealizadas();
+            $importeVentasNacionales = 0;
+            foreach ($ventas as $venta) {
+                $importeVentasNacionales = $importeVentasNacionales + $venta->retornarTotalVentaNacional(); 
+            }
+            return $importeVentasNacionales;
+        }
+
+        /**
+         * Metodo que retorna una coleccion de ventas, donde las mismas
+         * tengan al menos una moto importada
+         * @return Venta[]
+         */
+        public function informarVentasImportadas() {
+            $ventas = $this->getColeccionVentasRealizadas();
+            $ventasImportadas = [];
+            foreach ($ventas as $venta) {
+                if ($venta->tieneMotoImportada()) {
+                    $ventasImportadas[] = $venta;
+                }
+            }
+            return $ventasImportadas;
+        }
+
     }
 ?>

@@ -1,11 +1,10 @@
 <?php 
-    include 'Moto.php';
     class MotoNacional extends Moto {
         private $porcentajeDescuento;
 
-        public function __construct($cod, $cost, $anioM, $descrip, $porcIncAnual, $act) {
+        public function __construct($cod, $cost, $anioM, $descrip, $porcIncAnual, $act, $porDesc = 15) {
             parent::__construct($cod, $cost, $anioM, $descrip, $porcIncAnual, $act);
-            $this->porcentajeDescuento = 15;
+            $this->porcentajeDescuento = $porDesc;
         }
 
         public function getPorcentajeDescuento() {

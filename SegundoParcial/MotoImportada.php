@@ -1,5 +1,4 @@
 <?php 
-    include 'Moto.php';
     class MotoImportada extends Moto {
         private $paisOrigen;
         private $importeImpuestos;
