@@ -245,9 +245,9 @@
          * @return String
          */
         public function __toString() {
-            return ("Viaje: ".$this->getIdviaje().
-                "\nEmpresa: ".$this->getEmpresa().
-                "\nResponsable: ".$this->getResponsable().
+            return ("Id de viaje: ".$this->getIdviaje().
+                "\nId de empresa: ".($this->getEmpresa())->getIdempresa().
+                "\nNumero de empleado: ".($this->getResponsable())->getRnumeroempleado().
                 "\nDestino: ".$this->getVdestino().
                 "\nCantidad maxima de pasajeros: ".$this->getVcantmaxpasajeros().
                 "\nImporte: $".$this->getVimporte()."\n");

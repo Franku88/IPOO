@@ -13,7 +13,24 @@
 
     echo("--- Trabajo practico final: TestViajes ---\n");
     main();
-    echo("--- ¡Vuelva pronto! ---\n");
+    //echo("--- ¡Vuelva pronto! ---\n");
+    echo(<<<END
+                    ⣠⠤⠖⠚⠛⠉⠛⠒⠒⠦⢤
+            ⠀⠀⠀⠀⣠⠞⠁⠀⠀⠠⠒⠂⠀⠀⠀⠀⠀⠉⠳⡄
+            ⠀⠀⠀⢸⠇⠀⠀⠀⢀⡄⠤⢤⣤⣤⡀⢀⣀⣀⣀⣹⡄
+            ⠀⠀⠀⠘⢧⠀⠀⠀⠀⣙⣒⠚⠛⠋⠁⡈⠓⠴⢿⡿⠁
+            ⠀⠀⠀⠀⠀⠙⠒⠤⢀⠛⠻⠿⠿⣖⣒⣁⠤⠒⠋   ¡Vuelva pronto!
+            ⠀⠀⠀⠀⠀⢀⣀⣀⠼⠀⠈⣻⠋⠉⠁
+            ⠀⠀⠀⡴⠚⠉⠀⠀⠀⠀⠀⠈⠀⠐⢦
+            ⠀⠀⣸⠃⠀⡴⠋⠉⠀⢄⣀⠤⢴⠄⠀⡇
+            ⠀⢀⡏⠀⠀⠹⠶⢀⡔⠉⠀⠀⣼⠀⠀⡇
+            ⠀⣼⠁⠀⠙⠦⣄⡀⣀⡤⠶⣉⣁⣀⠘
+            ⢀⡟⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⣽
+            ⢸⠇⠀⠀⠀⢀⡤⠦⢤⡄⠀⠀⡟
+            ⢸⠀⠀⠀⠀⡾⠀⠀⠀⡿⠀⠀⣇⣀⣀
+            ⢸⠀⠀⠈⠉⠓⢦⡀⢰⣇⡀⠀⠉⠀⠀⣉⠇
+            ⠈⠓⠒⠒⠀⠐⠚⠃⠀⠈⠉⠉⠉⠉⠉⠁
+        END);
 
     /**
      * Funcion principal
@@ -127,48 +144,49 @@
      * Modifica dato de una empresa segun su id
      */
     function modificarEmpresa() {
-        echo "\n------------------------- Solicitaremos id de empresa a modificar -------------------------\n";
-        echo "--- Ingrese id: ";
-        $idempresa = trim(fgets(STDIN));
-        $empresa = new Empresa();
-        //Busco empresa
-        if ($empresa->buscarDatos($idempresa)) {
-            $sigue = true;
-            while ($sigue) {
-                echo "------------------------- Datos actuales -------------------------\n";
-                echo "--- Nombre: \"".$empresa->getEnombre()."\" ---\n";
-                echo "--- Direccion: \"".$empresa->getEdireccion()."\" ---\n";
-                opcionesEmpresa();
-                echo "--- Ingrese una opcion: ";
-                $rta = trim(fgets(STDIN));
-                switch ($rta) {
-                    case 0:
-                        echo "\n------------------------- Modificacion cancelada -------------------------\n";
-                        $sigue = false;
-                        break;
-                    case 1:
-                        echo "--- Ingrese nuevo nombre: ";
-                        $enombre = trim(fgets(STDIN));
-                        $empresa->setEnombre($enombre);
-                        break;
-                    case 2:
-                        echo "--- Ingrese nueva direccion: ";
-                        $edireccion = trim(fgets(STDIN));
-                        $empresa->setEdireccion($edireccion);
-                        break;
-                    case 3:
-                        //Modifico en la bd
-                        $empresa->modificar();
-                        echo "\n------------------------- Empresa modificada con exito -------------------------\n";
-                        $sigue = false;
-                        break;
-                    default:
-                        echo "\n------------------------- Opcion invalida -------------------------\n";
-                        break;
+        if (verEmpresas()) {
+            echo "--- Ingrese id de empresa a modificar: ";
+            $idempresa = trim(fgets(STDIN));
+            $empresa = new Empresa();
+            //Busco empresa
+            if ($empresa->buscarDatos($idempresa)) {
+                $sigue = true;
+                while ($sigue) {
+                    echo "------------------------- Datos actuales -------------------------\n";
+                    echo $empresa;
+                    echo "*----------------------------------------------------------------*\n";
+                    opcionesEmpresa();
+                    echo "--- Ingrese una opcion: ";
+                    $rta = trim(fgets(STDIN));
+                    switch ($rta) {
+                        case 0:
+                            echo "\n------------------------- Modificacion cancelada -------------------------\n";
+                            $sigue = false;
+                            break;
+                        case 1:
+                            echo "--- Ingrese nuevo nombre: ";
+                            $enombre = trim(fgets(STDIN));
+                            $empresa->setEnombre($enombre);
+                            break;
+                        case 2:
+                            echo "--- Ingrese nueva direccion: ";
+                            $edireccion = trim(fgets(STDIN));
+                            $empresa->setEdireccion($edireccion);
+                            break;
+                        case 3:
+                            //Modifico en la bd
+                            $empresa->modificar();
+                            echo "\n------------------------- Empresa modificada con exito -------------------------\n";
+                            $sigue = false;
+                            break;
+                        default:
+                            echo "\n------------------------- Opcion invalida -------------------------\n";
+                            break;
+                    }
                 }
+            } else {
+                echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
         }
     }
 
@@ -178,20 +196,20 @@
     function opcionesEmpresa() {
         echo <<<END
 
-        |******* Empresa ********|
-        |                        |
-        |     (0) Cancelar       |
-        |                        |
-        |------ Modificar -------|
-        |                        |
-        |     (1) Nombre         |
-        |     (2) Direccion      |
-        |                        |
-        |------------------------|
-        |                        |
-        |   (3) Aplicar cambios  |
-        |                        |
-        -************************-
+        |******** Empresa ********|
+        |                         |
+        |      (0) Cancelar       |
+        |                         |
+        |------ Modificar --------|
+        |                         |
+        |       (1) Nombre        |
+        |      (2) Direccion      |
+        |                         |
+        |-------------------------|
+        |                         |
+        |   (3) Aplicar cambios   |
+        |                         |
+        -*************************-
 
         END;
     }
@@ -200,63 +218,66 @@
      * Elimina los datos de una empresa segun su id
      */
     function eliminarEmpresa() {
-        echo "\n------------------------- Solicitaremos id de empresa a eliminar -------------------------\n";
-        echo "--- Ingrese id: ";
-        $idempresa = trim(fgets(STDIN));
-        $empresa = new Empresa();
-        //Verifica que exista dicha empresa
-        if ($empresa->buscarDatos($idempresa)) {
-            $viajes = $empresa->obtenerViajes();
-            //Verifica si tiene viajes/personas asociadas
-            if (count($viajes) > 0) {
-                echo "\n------- La empresa a eliminar tiene viajes y/o pasajeros asociados -------\n";
-                echo "--- ¿Desea eliminar todo? (SI/NO): ";
-                $rta = strtoupper(trim(fgets(STDIN)));
-                if ($rta == "SI") {
-                    $rta = null;
-                    echo "--- ¿Esta seguro? (SI/NO): ";
+        if (verEmpresas()) {
+            echo "--- Ingrese id de empresa a eliminar: ";
+            $idempresa = trim(fgets(STDIN));
+            $empresa = new Empresa();
+            //Verifica que exista dicha empresa
+            if ($empresa->buscarDatos($idempresa)) {
+                echo "\n------------------------- Empresa seleccionada -------------------------\n";
+                echo $empresa;
+                echo "*----------------------------------------------------------------------*\n";
+                $viajes = $empresa->obtenerViajes();
+                //Verifica si tiene viajes/personas asociadas
+                if (count($viajes) > 0) {
+                    echo "\n------- La empresa a encontrada tiene viajes y/o pasajeros asociados -------\n";
+                    echo "--- ¿Desea eliminar todo? (SI/NO): ";
                     $rta = strtoupper(trim(fgets(STDIN)));
                     if ($rta == "SI") {
-                        //Elimina cada viaje
-                        foreach($viajes as $viaje) {
-                            $pasajeros = $viaje->obtenerPasajeros();
-                            if (count($pasajeros) > 0) {
-                                //Elimina cada pasajero
-                                foreach ($pasajeros as $pasajero ) {
-                                    $pasajero->eliminar();
+                        $rta = null;
+                        echo "--- ¿Esta seguro? (SI/NO): ";
+                        $rta = strtoupper(trim(fgets(STDIN)));
+                        if ($rta == "SI") {
+                            //Elimina cada viaje
+                            foreach($viajes as $viaje) {
+                                $pasajeros = $viaje->obtenerPasajeros();
+                                if (count($pasajeros) > 0) {
+                                    //Elimina cada pasajero
+                                    foreach ($pasajeros as $pasajero ) {
+                                        $pasajero->eliminar();
+                                    }
                                 }
+                                $viaje->eliminar();
                             }
-                            $viaje->eliminar();
+                            $empresa->eliminar();
+                            echo "\n------------- Empresa, viajes y pasajeros eliminados con exito -------------\n";
+                        } else {
+                            echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                         }
-                        $empresa->eliminar();
-                        echo "\n------------- Empresa, viajes y pasajeros eliminados con exito -------------\n";
                     } else {
                         echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                     }
                 } else {
-                    echo "\n------------------------- Eliminacion cancelada -------------------------\n";
-                }
-            } else {
-                echo "\n------------------------- Empresa encontrada -------------------------\n";
-                echo "--- ¿Desea eliminarla? (SI/NO): ";
-                $rta = strtoupper(trim(fgets(STDIN)));
-                if ($rta == "SI") {
-                    $rta = null;
-                    echo "--- ¿Esta seguro? (SI/NO): ";
+                    echo "--- ¿Desea eliminarla? (SI/NO): ";
                     $rta = strtoupper(trim(fgets(STDIN)));
                     if ($rta == "SI") {
-                        //Elimino de la bd
-                        $empresa->eliminar();
-                        echo "\n------------------------- Empresa eliminada con exito -------------------------\n";    
-                    } else {
+                        $rta = null;
+                        echo "--- ¿Esta seguro? (SI/NO): ";
+                        $rta = strtoupper(trim(fgets(STDIN)));
+                        if ($rta == "SI") {
+                            //Elimino de la bd
+                            $empresa->eliminar();
+                            echo "\n------------------------- Empresa eliminada con exito -------------------------\n";    
+                        } else {
+                            echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                        }
+                    }  else {
                         echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                     }
-                }  else {
-                    echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                 }
+            } else {
+                echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
         }
     }
 
@@ -272,9 +293,12 @@
                 echo $cadaEmpresa;
                 echo "*----------------------------------------------------*\n";
             }
+            $flag = true;
         } else {
-            echo "---------------- No existen empresas -----------------\n";
+            echo "---------------------- No existen empresas ----------------------\n";
+            $flag = false;
         }
+        return $flag;
     }
 
     /**
@@ -282,131 +306,136 @@
      */
     function insertarViaje() {
         echo "\n------------------------- Solicitaremos datos del viaje -------------------------\n";
-        echo "--- Ingrese id de la empresa: ";
-        $idempresa = trim(fgets(STDIN));
-        $empresa = new Empresa();
-        //Verifica que existe dicha empresa
-        if ($empresa->buscarDatos($idempresa)) {
-            echo "--- Ingrese numero de empleado: ";
-            $rnumeroempleado = trim(fgets(STDIN));
-            $responsable = new ResponsableV();
-            if ($responsable->buscarDatos($rnumeroempleado)) {
-                echo "--- Ingrese destino: ";
-                $destino = trim(fgets(STDIN));
-                echo "--- Ingrese cantidad maxima de pasajeros: ";
-                $cantMaxpasajeros = trim(fgets(STDIN));
-                if (intval($cantMaxpasajeros) && $cantMaxpasajeros > 0) {
-                    echo "--- Ingrese el importe: ";
-                    $vimporte = trim(fgets(STDIN));
-                    if (doubleval($vimporte) && $vimporte > 0) {
-                        //$idviaje, $empresa, $responsable, $destino, $cantMaxpasajeros, $vimporte
-                        $viaje = new Viaje();
-                        $viaje->cargarDatos(null, $empresa, $responsable, $destino, $cantMaxpasajeros, $vimporte);
-                        //Inserto viaje en la base de datos
-                        $viaje->insertar();
-                        echo "\n------------- El viaje con id ".$viaje->getIdviaje()." fue ingresado en la BD -------------\n";
+        if (verEmpresas()) {
+            echo "--- Ingrese id de la empresa: ";
+            $idempresa = trim(fgets(STDIN));
+            $empresa = new Empresa();
+            //Verifica que existe dicha empresa
+            if ($empresa->buscarDatos($idempresa)) {
+                if (verResponsables()) {
+                    echo "--- Ingrese numero de empleado: ";
+                    $rnumeroempleado = trim(fgets(STDIN));
+                    $responsable = new ResponsableV();
+                    if ($responsable->buscarDatos($rnumeroempleado)) {
+                        echo "--- Ingrese destino: ";
+                        $destino = trim(fgets(STDIN));
+                        echo "--- Ingrese cantidad maxima de pasajeros: ";
+                        $cantMaxpasajeros = trim(fgets(STDIN));
+                        if (intval($cantMaxpasajeros) && $cantMaxpasajeros > 0) {
+                            echo "--- Ingrese el importe: ";
+                            $vimporte = trim(fgets(STDIN));
+                            if (doubleval($vimporte) && $vimporte > 0) {
+                                //$idviaje, $empresa, $responsable, $destino, $cantMaxpasajeros, $vimporte
+                                $viaje = new Viaje();
+                                $viaje->cargarDatos(null, $empresa, $responsable, $destino, $cantMaxpasajeros, $vimporte);
+                                //Inserto viaje en la base de datos
+                                $viaje->insertar();
+                                echo "\n------------- El viaje con id ".$viaje->getIdviaje()." fue ingresado en la BD -------------\n";
+                            } else {
+                                echo "\n------------------------- Valor ingresado debe ser numero positivo -------------------------\n";    
+                            }
+                        } else {
+                            echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";
+                        }
                     } else {
-                        echo "\n------------------------- Valor ingresado debe ser numero positivo -------------------------\n";    
+                        echo "\n------------- No existe responsable con numero de empleado ingresado -------------\n";
                     }
-                } else {
-                    echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";
                 }
             } else {
-                echo "\n------------- No existe responsable con numero de empleado ingresado -------------\n";
+                echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
         }
-    
     }
 
     /**
      * Modifica los datos de un viaje segun su id
      */
     function modificarViaje() {
-        echo "\n------------------------- Solicitaremos id del viaje a modificar -------------------------\n";
-        echo "--- Ingrese id: ";
-        $idviaje = trim(fgets(STDIN));
-        $viaje = new Viaje();
-        //Busco viaje
-        if ($viaje->buscarDatos($idviaje)) {
-            $sigue = true;
-            while ($sigue) {
-                echo "------------------------- Datos actuales -------------------------\n";
-                echo "--- Id de empresa: \"".($viaje->getEmpresa())->getIdempresa()."\" ---\n";
-                echo "--- Numero de responsable: \n".($viaje->getResponsable())->getRnumeroempleado()." ---\n";
-                echo "--- Destino: \"".$viaje->getVdestino()."\" ---\n";
-                echo "--- Pasajeros maximos: \"".$viaje->getVcantmaxpasajeros()."\" ---\n";
-                echo "--- Importe: $".$viaje->getVimporte()." ---\n";
-                opcionesViaje();
-                echo "--- Ingrese una opcion: ";
-                $rta = trim(fgets(STDIN));
-                switch ($rta) {
-                    case 0:
-                        echo "\n------------------------- Modificacion cancelada -------------------------\n";
-                        $sigue = false;
-                        break;
-                    case 1:
-                        echo "--- Ingrese nuevo id de empresa: ";
-                        $idempresa = trim(fgets(STDIN));
-                        $empresa = new Empresa();
-                        if ($empresa->buscarDatos($idempresa)) {
-                            $viaje->setEmpresa($empresa);
-                        } else { 
-                            echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
-                        }
-                        break;
-                    case 2:
-                        echo "--- Ingrese nuevo numero de empleado: ";
-                        $rnumeroempleado = trim(fgets(STDIN));
-                        $responsable = new ResponsableV();
-                        if ($responsable->buscarDatos($rnumeroempleado)) {
-                            $viaje->setResponsable($responsable);
-                        } else { 
-                            echo "\n------------------------- No existe responsable con numero ingresado -------------------------\n";
-                        }
-                        break;
-                    case 3:
-                        echo "--- Ingrese nuevo destino: ";
-                        $destino = trim(fgets(STDIN));
-                        $viaje->setVdestino($destino);
-                        break;
-                    case 4:
-                        echo "--- Ingrese nueva cantidad maxima de pasajeros: ";
-                        $cantMaxpasajeros = trim(fgets(STDIN));
-                        if (intval($cantMaxpasajeros)) {
-                            $pasajeros = $viaje->obtenerPasajeros();
-                            if (count($pasajeros) <= $cantMaxpasajeros) {
-                                $viaje->setVcantmaxpasajeros($cantMaxpasajeros);
-                            } else {
-                                echo "\n------------ Valor ingresado debe ser mayor o igual a la cantidad actual de pasajeros ------------\n";
+        if (verViajes()) {
+            echo "--- Ingrese id de viaje a modificar: ";
+            $idviaje = trim(fgets(STDIN));
+            $viaje = new Viaje();
+            //Busco viaje
+            if ($viaje->buscarDatos($idviaje)) {
+                $sigue = true;
+                while ($sigue) {
+                    echo "------------------------- Datos actuales -------------------------\n";
+                    echo $viaje;
+                    echo "*----------------------------------------------------------------*\n";
+                    opcionesViaje();
+                    echo "--- Ingrese una opcion: ";
+                    $rta = trim(fgets(STDIN));
+                    switch ($rta) {
+                        case 0:
+                            echo "\n------------------------- Modificacion cancelada -------------------------\n";
+                            $sigue = false;
+                            break;
+                        case 1:
+                            if (verEmpresas()) {
+                                echo "--- Ingrese nuevo id de empresa: ";
+                                $idempresa = trim(fgets(STDIN));
+                                $empresa = new Empresa();
+                                if ($empresa->buscarDatos($idempresa)) {
+                                    $viaje->setEmpresa($empresa);
+                                } else { 
+                                    echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
+                                }
                             }
-                        } else {
-                            echo "\n---------------- Valor ingresado debe ser numero entero positivo ----------------\n";
-                        }
+                            break;
+                        case 2:
+                            if (verResponsables()) {
+                                echo "--- Ingrese nuevo numero de empleado: ";
+                                $rnumeroempleado = trim(fgets(STDIN));
+                                $responsable = new ResponsableV();
+                                if ($responsable->buscarDatos($rnumeroempleado)) {
+                                    $viaje->setResponsable($responsable);
+                                } else { 
+                                    echo "\n------------------------- No existe responsable con numero ingresado -------------------------\n";
+                                }
+                            }
+                            break;
+                        case 3:
+                            echo "--- Ingrese nuevo destino: ";
+                            $destino = trim(fgets(STDIN));
+                            $viaje->setVdestino($destino);
+                            break;
+                        case 4:
+                            echo "--- Ingrese nueva cantidad maxima de pasajeros: ";
+                            $cantMaxpasajeros = trim(fgets(STDIN));
+                            if (intval($cantMaxpasajeros)) {
+                                $pasajeros = $viaje->obtenerPasajeros();
+                                if (count($pasajeros) <= $cantMaxpasajeros) {
+                                    $viaje->setVcantmaxpasajeros($cantMaxpasajeros);
+                                } else {
+                                    echo "\n------------ Valor ingresado debe ser mayor o igual a la cantidad actual de pasajeros ------------\n";
+                                }
+                            } else {
+                                echo "\n---------------- Valor ingresado debe ser numero entero positivo ----------------\n";
+                            }
+                            break;
+                        case 5:
+                            echo "--- Ingrese nuevo importe: ";
+                            $vimporte = trim(fgets(STDIN));
+                            if (is_numeric($vimporte) && $vimporte > 0) {
+                                $viaje->setVimporte($vimporte);
+                            } else {
+                                echo "\n---------------- Valor ingresado debe ser numero positivo ----------------\n";
+                            }
+                            break;
+                        case 6:
+                            //Modifico en la bd
+                            $viaje->modificar();
+                            echo "\n------------------------- Viaje modificado con exito -------------------------\n";
+                            $sigue = false;
+                            break;
+                        default:
+                            echo "\n------------------------- Opcion invalida -------------------------\n";
                         break;
-                    case 5:
-                        echo "--- Ingrese nuevo importe: ";
-                        $vimporte = trim(fgets(STDIN));
-                        if (is_numeric($vimporte) && $vimporte > 0) {
-                            $viaje->setVimporte($vimporte);
-                        } else {
-                            echo "\n---------------- Valor ingresado debe ser numero positivo ----------------\n";
-                        }
-                        break;
-                    case 6:
-                        //Modifico en la bd
-                        $viaje->modificar();
-                        echo "\n------------------------- Viaje modificado con exito -------------------------\n";
-                        $sigue = false;
-                        break;
-                    default:
-                        echo "\n------------------------- Opcion invalida -------------------------\n";
-                    break;
+                    }
                 }
+            } else {
+                echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";
         }
     }
 
@@ -441,55 +470,58 @@
      * Elimina los datos de un viaje segun su id
      */
     function eliminarViaje() {
-        echo "\n------------------------- Solicitaremos id de viaje a eliminar -------------------------\n";
-        echo "--- Ingrese id: ";
-        $idviaje = trim(fgets(STDIN));
-        $viaje = new Viaje();
-        //Busca viaje con dicho id
-        if ($viaje->buscarDatos($idviaje)) {
-            $pasajeros = $viaje->obtenerPasajeros();
-            //Verifica si tiene pasajeros asociados
-            if (count($pasajeros) > 0) {
-                echo "\n------------- El viaje a eliminar tiene pasajeros asociados -------------\n";
-                echo "--- ¿Desea eliminarlos? (SI/NO): ";
-                $rta = strtoupper(trim(fgets(STDIN)));
-                if ($rta == "SI") {
-                    $rta = null;
-                    echo "--- ¿Esta seguro? (SI/NO): ";
+        if (verViajes()) {
+            echo "--- Ingrese id de viaje a eliminar: ";
+            $idviaje = trim(fgets(STDIN));
+            $viaje = new Viaje();
+            //Busca viaje con dicho id
+            if ($viaje->buscarDatos($idviaje)) {
+                $pasajeros = $viaje->obtenerPasajeros();
+                echo "\n------------------------- Viaje seleccionado -------------------------\n";
+                echo $viaje;
+                echo "*--------------------------------------------------------------------*\n";
+                //Verifica si tiene pasajeros asociados
+                if (count($pasajeros) > 0) {
+                    echo "\n------------- El viaje a eliminar tiene pasajeros asociados -------------\n";
+                    echo "--- ¿Desea eliminarlos? (SI/NO): ";
                     $rta = strtoupper(trim(fgets(STDIN)));
                     if ($rta == "SI") {
-                        //Elimina cada pasajero
-                        foreach ($pasajeros as $pasajero) {
-                            $pasajero->eliminar();
+                        $rta = null;
+                        echo "--- ¿Esta seguro? (SI/NO): ";
+                        $rta = strtoupper(trim(fgets(STDIN)));
+                        if ($rta == "SI") {
+                            //Elimina cada pasajero
+                            foreach ($pasajeros as $pasajero) {
+                                $pasajero->eliminar();
+                            }
+                            $viaje->eliminar();
+                            echo "\n------------------------- Viaje y pasajeros eliminados con exito -------------------------\n";
+                        } else {
+                            echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                         }
-                        $viaje->eliminar();
-                        echo "\n------------------------- Viaje y pasajeros eliminados con exito -------------------------\n";
                     } else {
                         echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                     }
                 } else {
-                    echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                    echo "--- ¿Desea eliminarlo? (SI/NO): ";
+                    $rta = strtoupper(trim(fgets(STDIN)));
+                    if ($rta == "SI") {
+                        $rta = null;
+                        echo "--- ¿Esta seguro? (SI/NO): ";
+                        $rta = strtoupper(trim(fgets(STDIN)));
+                        if ($rta == "SI") {
+                            $viaje->eliminar();
+                            echo "\n------------------------- Viaje eliminado con exito -------------------------\n";
+                        } else {
+                            echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                        }
+                    } else {
+                        echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                    }
                 }
             } else {
-                echo "\n------------------------- Viaje encontrado -------------------------\n";
-                echo "--- ¿Desea eliminarlo? (SI/NO): ";
-                $rta = strtoupper(trim(fgets(STDIN)));
-                if ($rta == "SI") {
-                    $rta = null;
-                    echo "--- ¿Esta seguro? (SI/NO): ";
-                    $rta = strtoupper(trim(fgets(STDIN)));
-                    if ($rta == "SI") {
-                        $viaje->eliminar();
-                        echo "\n------------------------- Viaje eliminado con exito -------------------------\n";
-                    } else {
-                        echo "\n------------------------- Eliminacion cancelada -------------------------\n";
-                    }
-                } else {
-                    echo "\n------------------------- Eliminacion cancelada -------------------------\n";
-                }
+                echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";
         }
     }
 
@@ -505,9 +537,12 @@
                 echo $cadaViaje;
                 echo "*----------------------------------------------------*\n";
             }
+            $flag = true;
         } else {
-            echo "---------------- No existen viajes -----------------\n";
+            echo "---------------------- No existen viajes ----------------------\n";
+            $flag = false;
         }
+        return $flag;
     }
 
     /**
@@ -538,58 +573,58 @@
      * Modifica los datos de un responsable segun su id
      */
     function modificarResponsable() {
-        echo "\n------------- Solicitaremos numero de empleado responsable a modificar -------------\n";
-        echo "--- Ingrese numero de empleado: ";
-        $rnumeroempleado = trim(fgets(STDIN));
-        $responsable = new ResponsableV();
-        //Busco empleado con dicho numero
-        if ($responsable->buscarDatos($rnumeroempleado)) {
-            $sigue = true;
-            while ($sigue) {
-                echo "------------------------- Datos actuales -------------------------\n";
-                echo "--- Numero de licencia: \"".$responsable->getRnumerolicencia()."\" ---\n";
-                echo "--- Nombre: \"".$responsable->getRnombre()."\" ---\n";
-                echo "--- Apellido: ".$responsable->getRapellido()." ---\n";
-                opcionesResponsable();
-                echo "--- Ingrese una opcion: ";
-                $rta = trim(fgets(STDIN));
-                switch ($rta) {
-                    case 0:    
-                        echo "\n------------------------- Modificacion cancelada -------------------------\n";
-                        $sigue = false;
-                        break;
-                    case 1:
-                        echo "--- Ingrese nuevo numero de licencia: ";
-                        $numLicencia = trim(fgets(STDIN));
-                        if (intval($numLicencia)) {
-                            $responsable->setRnumerolicencia($numLicencia);
-                        } else {
-                            echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";
-                        }
-                        break;
-                    case 2:
-                        echo "--- Ingrese nuevo nombre: ";
-                        $nombre = trim(fgets(STDIN));
-                        $responsable->setRnombre($nombre);
-                        break;
-                    case 3:
-                        echo "--- Ingrese nuevo apellido: ";
-                        $apellido = trim(fgets(STDIN));
-                        $responsable->setRapellido($apellido);
-                        break;
-                    case 4:
-                        //Modifico en la bd
-                        $responsable->modificar();
-                        echo "\n------------------------- Responsable modificado con exito -------------------------\n";
-                        $sigue = false;
-                        break;
-                    default:
-                        echo "\n------------------------- Opcion invalida -------------------------\n";
-                        break;
+        if (verResponsables()) {
+            echo "--- Ingrese numero de empleado a modificar: ";
+            $rnumeroempleado = trim(fgets(STDIN));
+            $responsable = new ResponsableV();
+            //Busco empleado con dicho numero
+            if ($responsable->buscarDatos($rnumeroempleado)) {
+                $sigue = true;
+                while ($sigue) {
+                    echo "------------------------- Datos actuales -------------------------\n";
+                    echo $responsable;
+                    echo "*----------------------------------------------------------------*\n";
+                    opcionesResponsable();
+                    echo "--- Ingrese una opcion: ";
+                    $rta = trim(fgets(STDIN));
+                    switch ($rta) {
+                        case 0:    
+                            echo "\n------------------------- Modificacion cancelada -------------------------\n";
+                            $sigue = false;
+                            break;
+                        case 1:
+                            echo "--- Ingrese nuevo numero de licencia: ";
+                            $numLicencia = trim(fgets(STDIN));
+                            if (intval($numLicencia)) {
+                                $responsable->setRnumerolicencia($numLicencia);
+                            } else {
+                                echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";
+                            }
+                            break;
+                        case 2:
+                            echo "--- Ingrese nuevo nombre: ";
+                            $nombre = trim(fgets(STDIN));
+                            $responsable->setRnombre($nombre);
+                            break;
+                        case 3:
+                            echo "--- Ingrese nuevo apellido: ";
+                            $apellido = trim(fgets(STDIN));
+                            $responsable->setRapellido($apellido);
+                            break;
+                        case 4:
+                            //Modifico en la bd
+                            $responsable->modificar();
+                            echo "\n------------------------- Responsable modificado con exito -------------------------\n";
+                            $sigue = false;
+                            break;
+                        default:
+                            echo "\n------------------------- Opcion invalida -------------------------\n";
+                            break;
+                    }
                 }
+            } else {
+                echo "\n------------------------- No existe responsable con id ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe responsable con id ingresado -------------------------\n";
         }
     }
 
@@ -623,41 +658,44 @@
      */
     function eliminarResponsable() {
         //Asigno id a eliminar
-        $responsable = new ResponsableV();
-        echo "\n------------- Solicitaremos numero de empleado responsable a eliminar -------------\n";
-        echo "--- Ingrese numero de empleado: ";
-        $rnumeroempleado = trim(fgets(STDIN));
-        //Busco empleado con dicho numero
-        if ($responsable->setRnumeroEmpleado($rnumeroempleado)) {
-            $viajes = $responsable->obtenerViajes();
-            if (count($viajes) > 0) {
-                echo "\n------------- Existen viajes asociados al responsable con el numero ingresado -------------\n";
-                echo "Ids de dichos viajes: - ";
-                foreach ($viajes as $viaje) {
-                    echo $viaje->getIdviaje()." - ";
-                }
-                echo "\n------------- Por favor, elimine los viajes o modifique sus responsables -------------\n";
-            } else {
-                echo "\n------------------------- Responsable encontrado -------------------------\n";
-                echo "--- ¿Desea eliminarlo? (SI/NO): ";
-                $rta = strtoupper(trim(fgets(STDIN)));
-                if ($rta == "SI") {
-                    $rta = null;
-                    echo "--- ¿Esta seguro? (SI/NO): ";
+        if (verResponsables()) {
+            echo "--- Ingrese numero de empleado a eliminar: ";
+            $rnumeroempleado = trim(fgets(STDIN));
+            $responsable = new ResponsableV();
+            //Busco empleado con dicho numero
+            if ($responsable->buscarDatos($rnumeroempleado)) {
+                $viajes = $responsable->obtenerViajes();
+                echo "\n------------------------ Responsable seleccionado ------------------------\n";
+                echo $responsable;
+                echo "*------------------------------------------------------------------------*\n";
+                if (count($viajes) > 0) {
+                    echo "\n------------- Existen viajes asociados al responsable seleccionado -------------\n";
+                    echo "Ids de dichos viajes: - ";
+                    foreach ($viajes as $viaje) {
+                        echo $viaje->getIdviaje()." - ";
+                    }
+                    echo "\n------------- Por favor, elimine los viajes o modifique sus responsables -------------\n";
+                } else {
+                    echo "--- ¿Desea eliminarlo? (SI/NO): ";
                     $rta = strtoupper(trim(fgets(STDIN)));
                     if ($rta == "SI") {
-                        //Elimino de la bd
-                        $responsable->eliminar();
-                        echo "\n------------------------- Responsable eliminado con exito -------------------------\n";
+                        $rta = null;
+                        echo "--- ¿Esta seguro? (SI/NO): ";
+                        $rta = strtoupper(trim(fgets(STDIN)));
+                        if ($rta == "SI") {
+                            //Elimino de la bd
+                            $responsable->eliminar();
+                            echo "\n------------------------- Responsable eliminado con exito -------------------------\n";
+                        } else {
+                            echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                        }
                     } else {
                         echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                     }
-                } else {
-                    echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                 }
+            } else { 
+                echo "\n------------------------- No existe responsable con id ingresado -------------------------\n";
             }
-        } else { 
-            echo "\n------------------------- No existe responsable con id ingresado -------------------------\n";
         }
     }
 
@@ -673,9 +711,12 @@
                 echo $cadaResponsable;
                 echo "*--------------------------------------------------------*\n";
             }
+            $flag = true;
         } else {
-            echo "---------------- No existen responsables -----------------\n";
+            echo "---------------------- No existen responsables ----------------------\n";
+            $flag = false;
         }
+        return $flag;
     }
 
     /**
@@ -689,32 +730,34 @@
             $pasajero = new Pasajero();
             //Verifico que no exista dicho dni en la bd
             if (!($pasajero->buscarDatos($dni))) {
-                echo "--- Ingrese id del viaje: ";
-                $idviaje = trim(fgets(STDIN));
-                $viaje = new Viaje();
-                if ($viaje->buscarDatos($idviaje)) {
-                    $pasajeros = $viaje->obtenerPasajeros();
-                    if (count($pasajeros) < $viaje->getVcantmaxpasajeros()) {
-                        echo "--- Ingrese nombre: ";
-                        $nombre = trim(fgets(STDIN));
-                        echo "--- Ingrese apellido: ";
-                        $apellido = trim(fgets(STDIN));
-                        echo "--- Ingrese numero de telefono: ";
-                        $telefono = trim(fgets(STDIN));
-                        if (intval($telefono) && $telefono > 0) {
-                            //$dni, $nombre, $apellido, $telefono, $viaje
-                            $pasajero->cargarDatos($dni, $nombre, $apellido, $telefono, $viaje);
-                            //Inserto pasajero en la base de datos
-                            $pasajero->insertar();
-                            echo "\n------------- Pasajero con dni ".$pasajero->getPdocumento()." fue ingresado en la BD -------------\n";
+                if (verViajes()) {
+                    echo "--- Ingrese id del viaje: ";
+                    $idviaje = trim(fgets(STDIN));
+                    $viaje = new Viaje();
+                    if ($viaje->buscarDatos($idviaje)) {
+                        $pasajeros = $viaje->obtenerPasajeros();
+                        if (count($pasajeros) < $viaje->getVcantmaxpasajeros()) {
+                            echo "--- Ingrese nombre: ";
+                            $nombre = trim(fgets(STDIN));
+                            echo "--- Ingrese apellido: ";
+                            $apellido = trim(fgets(STDIN));
+                            echo "--- Ingrese numero de telefono: ";
+                            $telefono = trim(fgets(STDIN));
+                            if (intval($telefono) && $telefono > 0) {
+                                //$dni, $nombre, $apellido, $telefono, $viaje
+                                $pasajero->cargarDatos($dni, $nombre, $apellido, $telefono, $viaje);
+                                //Inserto pasajero en la base de datos
+                                $pasajero->insertar();
+                                echo "\n------------- Pasajero con dni ".$pasajero->getPdocumento()." fue ingresado en la BD -------------\n";
+                            } else {
+                                echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";        
+                            }
                         } else {
-                            echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";        
+                            echo "\n------------------------- Viaje lleno -------------------------\n";        
                         }
                     } else {
-                        echo "\n------------------------- Viaje lleno -------------------------\n";        
+                        echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";    
                     }
-                } else {
-                    echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";    
                 }
             } else {
                 echo "\n------------------------- Ya existe un pasajero con dni ingresado -------------------------\n";
@@ -730,72 +773,73 @@
     function modificarPasajero() {
         //Busco pasajero existente
         $pasajero = new Pasajero();
-        echo "\n------------------------- Solicitaremos numero de dni de pasajero a modificar -------------------------\n";
-        echo "--- Ingrese numero de dni: ";
-        $dni = trim(fgets(STDIN));
-        if ($pasajero->buscarDatos($dni)) {
-            $sigue = true;
-            while ($sigue) {
-                echo "------------------------- Datos actuales -------------------------\n";
-                echo "--- Nombre: \"".$pasajero->getPnombre()."\" ---\n";
-                echo "--- Apellido: \"".$pasajero->getPapellido()."\" ---\n";
-                echo "--- Telefono: \"".$pasajero->getPtelefono()."\" ---\n";
-                echo "--- Id de viaje: \"".($pasajero->getViaje())->getIdviaje()."\" ---\n";
-                opcionesPasajero();
-                echo "--- Ingrese una opcion: ";
-                $rta = trim(fgets(STDIN));
-                switch ($rta) { 
-                    case 0:
-                        echo "\n------------------------- Modificacion cancelada -------------------------\n";
-                        $sigue = false;
-                        break;
-                    case 1:
-                        echo "--- Ingrese nuevo nombre: ";
-                        $nombre = trim(fgets(STDIN));
-                        $pasajero->setPnombre($nombre);
-                        break;
-                    case 2:
-                        echo "--- Ingrese nuevo apellido: ";
-                        $apellido = trim(fgets(STDIN));
-                        $pasajero->setPapellido($apellido);
-                        break;
-                    case 3:
-                        echo "--- Ingrese nuevo telefono: ";
-                        $telefono = trim(fgets(STDIN));
-                        if (intval($telefono) && $telefono > 0) {
-                            $pasajero->setPtelefono($telefono);
-                        } else {
-                            echo "\n------------------------- Valor ingresado debe ser entero positivo -------------------------\n";
-                        }
-                        break;
-                    case 4:
-                        echo "--- Ingrese nuevo id de viaje: ";
-                        $idviaje = trim(fgets(STDIN));
-                        $viaje = new Viaje();
-                        if ($viaje->buscarDatos($idviaje)) {
-                            $pasajeros = $viaje->obtenerPasajeros();
-                            if (count($pasajeros) < $viaje->getVcantmaxpasajeros()) {
-                                $pasajero->setViaje($viaje);
+        if (verPasajeros()) {
+            echo "--- Ingrese numero de dni de pasajero a modificar: ";
+            $dni = trim(fgets(STDIN));
+            if ($pasajero->buscarDatos($dni)) {
+                $sigue = true;
+                while ($sigue) {
+                    echo "------------------------- Datos actuales -------------------------\n";
+                    echo $pasajero;
+                    echo "*----------------------------------------------------------------*\n";
+                    opcionesPasajero();
+                    echo "--- Ingrese una opcion: ";
+                    $rta = trim(fgets(STDIN));
+                    switch ($rta) { 
+                        case 0:
+                            echo "\n------------------------- Modificacion cancelada -------------------------\n";
+                            $sigue = false;
+                            break;
+                        case 1:
+                            echo "--- Ingrese nuevo nombre: ";
+                            $nombre = trim(fgets(STDIN));
+                            $pasajero->setPnombre($nombre);
+                            break;
+                        case 2:
+                            echo "--- Ingrese nuevo apellido: ";
+                            $apellido = trim(fgets(STDIN));
+                            $pasajero->setPapellido($apellido);
+                            break;
+                        case 3:
+                            echo "--- Ingrese nuevo telefono: ";
+                            $telefono = trim(fgets(STDIN));
+                            if (intval($telefono) && $telefono > 0) {
+                                $pasajero->setPtelefono($telefono);
                             } else {
-                                echo "\n------------------------- Viaje lleno -------------------------\n";    
+                                echo "\n------------------------- Valor ingresado debe ser entero positivo -------------------------\n";
                             }
-                        } else {
-                            echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";    
-                        }
-                        break;
-                    case 5:
-                        //Modifico en la bd
-                        $pasajero->modificar();
-                        echo "\n------------------------- Pasajero modificado con exito -------------------------\n";
-                        $sigue = false;
-                        break;
-                    default:
-                        echo "\n------------------------- Opcion invalida -------------------------\n";
-                        break;       
+                            break;
+                        case 4:
+                            if (verViajes()) {
+                                echo "--- Ingrese nuevo id de viaje: ";
+                                $idviaje = trim(fgets(STDIN));
+                                $viaje = new Viaje();
+                                if ($viaje->buscarDatos($idviaje)) {
+                                    $pasajeros = $viaje->obtenerPasajeros();
+                                    if (count($pasajeros) < $viaje->getVcantmaxpasajeros()) {
+                                        $pasajero->setViaje($viaje);
+                                    } else {
+                                        echo "\n------------------------- Viaje lleno -------------------------\n";    
+                                    }
+                                } else {
+                                    echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";    
+                                }
+                            }
+                            break;
+                        case 5:
+                            //Modifico en la bd
+                            $pasajero->modificar();
+                            echo "\n------------------------- Pasajero modificado con exito -------------------------\n";
+                            $sigue = false;
+                            break;
+                        default:
+                            echo "\n------------------------- Opcion invalida -------------------------\n";
+                            break;       
+                    }
                 }
+            } else {
+                echo "\n------------------------- No existe pasajero con dni ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe pasajero con dni ingresado -------------------------\n";
         }       
     }
 
@@ -830,30 +874,33 @@
      */
     function eliminarPasajero() {
         //Asigno id a eliminar
-        $pasajero = new Pasajero();
-        echo "\n------------------------- Solicitaremos numero de dni de pasajero a eliminar -------------------------\n";
-        echo "--- Ingrese numero de dni: ";
-        $dni = trim(fgets(STDIN));
-        if ($pasajero->buscarDatos($dni)) {
-            echo "\n------------------------- Pasajero encontrado -------------------------\n";
-            echo "--- ¿Desea eliminarlo? (SI/NO): ";
-            $rta = strtoupper(trim(fgets(STDIN)));
-            if ($rta == "SI") {
-                $rta = null;
-                echo "--- ¿Esta seguro? (SI/NO): ";
+        if (verPasajeros()){
+            $pasajero = new Pasajero();
+            echo "--- Ingrese numero de dni de pasajero a eliminar: ";
+            $dni = trim(fgets(STDIN));
+            if ($pasajero->buscarDatos($dni)) {
+                echo "\n------------------------ Pasajero seleccionado ------------------------\n";
+                echo $pasajero;
+                echo "*---------------------------------------------------------------------*\n";
+                echo "--- ¿Desea eliminarlo? (SI/NO): ";
                 $rta = strtoupper(trim(fgets(STDIN)));
                 if ($rta == "SI") {
-                    //Elimino de la bd
-                    $pasajero->eliminar();
-                    echo "\n------------------------- Pasajero eliminado con exito -------------------------\n";
+                    $rta = null;
+                    echo "--- ¿Esta seguro? (SI/NO): ";
+                    $rta = strtoupper(trim(fgets(STDIN)));
+                    if ($rta == "SI") {
+                        //Elimino de la bd
+                        $pasajero->eliminar();
+                        echo "\n------------------------- Pasajero eliminado con exito -------------------------\n";
+                    } else {
+                        echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                    }
                 } else {
                     echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                 }
             } else {
-                echo "\n------------------------- Eliminacion cancelada -------------------------\n";
+                echo "\n------------------------- No existe pasajero con dni ingresado -------------------------\n";
             }
-        } else {
-            echo "\n------------------------- No existe pasajero con dni ingresado -------------------------\n";
         }
     }
 
@@ -869,8 +916,11 @@
                 echo $cadaPasajero;
                 echo "*-----------------------------------------------------*\n";
             }
+            $flag = true;
         } else {
-            echo "---------------- No existen pasajeros -----------------\n";
+            echo "---------------------- No existen pasajeros ----------------------\n";
+            $flag = false;
         }
+        return $flag;
     }
 ?>
