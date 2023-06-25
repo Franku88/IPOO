@@ -132,9 +132,9 @@
                 }
                 $consulta .= " order by pdocumento ";
                 if ($bD->Ejecutar($consulta)) {
-                    $pasajero = new Pasajero();
-                    $viaje = new Viaje();
                     while ($row = $bD->Registro()) {
+                        $pasajero = new Pasajero();
+                        $viaje = new Viaje();   
                         $viaje->buscarDatos($row['idviaje']);
                         $pasajero->cargarDatos($row['pdocumento'], $row['pnombre'], $row['papellido'], $row['ptelefono'], $viaje);
                         array_push($coleccion, $pasajero);

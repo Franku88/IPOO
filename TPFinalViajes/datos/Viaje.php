@@ -147,10 +147,10 @@
                 }
                 $consulta .= " order by idviaje ";
                 if ($bD->Ejecutar($consulta)) {
-                    $viaje = new Viaje();
-                    $empresa = new Empresa();
-                    $responsable = new ResponsableV();
                     while ($row = $bD->Registro()) {
+                        $viaje = new Viaje();
+                        $empresa = new Empresa();
+                        $responsable = new ResponsableV();
                         $empresa->buscarDatos($row['idempresa']);
                         $responsable->buscarDatos($row['rnumeroempleado']);
                         $viaje->cargarDatos($row['idviaje'], $empresa, $responsable, $row['vdestino'], $row['vcantmaxpasajeros'], $row['vimporte']);

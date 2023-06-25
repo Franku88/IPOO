@@ -1,9 +1,15 @@
 <?php
-    include_once "./datos/BaseDatos.php";
-    include_once "./datos/Empresa.php";
-    include_once "./datos/Viaje.php";
-    include_once "./datos/ResponsableV.php";
-    include_once "./datos/Pasajero.php";
+    include_once "./TPFinalViajes/datos/BaseDatos.php";
+    include_once "./TPFinalViajes/datos/Empresa.php";
+    include_once "./TPFinalViajes/datos/Viaje.php";
+    include_once "./TPFinalViajes/datos/ResponsableV.php";
+    include_once "./TPFinalViajes/datos/Pasajero.php";
+
+    //include_once "../datos/BaseDatos.php";
+    //include_once "../datos/Empresa.php";
+    //include_once "../datos/Viaje.php";
+    //include_once "../datos/ResponsableV.php";
+    //include_once "../datos/Pasajero.php";
 
     echo("--- Trabajo practico final: TestViajes ---\n");
     main();
@@ -82,26 +88,21 @@
      */
     function opciones() {
         echo (<<<END
-        |******************** Menu ********************|
-        |------ Insertar -------|----- Modificar ------|
-        |                       |                      |
-        |   (1) Empresa         |   (5) Empresa        |
-        |   (2) Responsable     |   (6) Responsable    |
-        |   (3) Viaje           |   (7) Viaje          |
-        |   (4) Pasajero        |   (8) Pasajero       |
-        |                       |                      |    
-        |------ Eliminar -------|------- Ver ----------|
-        |                       |                      |
-        |   (9) Empresa         |   (13) Empresas      |
-        |   (10) Responsable    |   (14) Responsables  |
-        |   (11) Viaje          |   (15) Viajes        |
-        |   (12) Pasajero       |   (16) Pasajeros     |
-        |                       |                      |
-        |----------------------------------------------|
-                    |                     |
-                    |   (17) Finalizar    |
-                    |                     |
-                    -*********************-\n
+
+        |******************************************* Menu ********************************************|
+        |------ Insertar -------+----- Modificar ------+------ Eliminar -------+------- Ver ----------|
+        |                       |                      |                       |                      |
+        |   (1) Empresa         |   (5) Empresa        |   (9) Empresa         |   (13) Empresas      |
+        |   (2) Responsable     |   (6) Responsable    |   (10) Responsable    |   (14) Responsables  |
+        |   (3) Viaje           |   (7) Viaje          |   (11) Viaje          |   (15) Viajes        |
+        |   (4) Pasajero        |   (8) Pasajero       |   (12) Pasajero       |   (16) Pasajeros     |
+        |                       |                      |                       |                      |  
+        |-----------------------+----------------------+-----------------------+----------------------|
+                                            |                     |
+                                            |   (17) Finalizar    |
+                                            |                     |
+                                            -*********************-
+
         END);
     }
 
@@ -176,6 +177,7 @@
      */
     function opcionesEmpresa() {
         echo <<<END
+
         |******* Empresa ********|
         |                        |
         |     (0) Cancelar       |
@@ -189,7 +191,8 @@
         |                        |
         |   (3) Aplicar cambios  |
         |                        |
-        -************************-\n
+        -************************-
+
         END;
     }
 
@@ -197,7 +200,7 @@
      * Elimina los datos de una empresa segun su id
      */
     function eliminarEmpresa() {
-        echo "\n------------------------- Solicitaremos id de empresa a eliminar -------------------------n";
+        echo "\n------------------------- Solicitaremos id de empresa a eliminar -------------------------\n";
         echo "--- Ingrese id: ";
         $idempresa = trim(fgets(STDIN));
         $empresa = new Empresa();
@@ -244,16 +247,16 @@
                     if ($rta == "SI") {
                         //Elimino de la bd
                         $empresa->eliminar();
-                        echo "\n------------------------- Empresa eliminada con exito -------------------------n";    
+                        echo "\n------------------------- Empresa eliminada con exito -------------------------\n";    
                     } else {
-                        echo "\n------------------------- Eliminacion cancelada -------------------------n";
+                        echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                     }
                 }  else {
-                    echo "\n------------------------- Eliminacion cancelada -------------------------n";
+                    echo "\n------------------------- Eliminacion cancelada -------------------------\n";
                 }
             }
         } else {
-            echo "\n------------------------- No existe empresa con id ingresado -------------------------n";
+            echo "\n------------------------- No existe empresa con id ingresado -------------------------\n";
         }
     }
 
@@ -292,10 +295,10 @@
                 $destino = trim(fgets(STDIN));
                 echo "--- Ingrese cantidad maxima de pasajeros: ";
                 $cantMaxpasajeros = trim(fgets(STDIN));
-                if (is_int($cantMaxpasajeros) && $cantMaxpasajeros > 0) {
+                if (intval($cantMaxpasajeros) && $cantMaxpasajeros > 0) {
                     echo "--- Ingrese el importe: ";
                     $vimporte = trim(fgets(STDIN));
-                    if (is_numeric($vimporte) && $vimporte > 0) {
+                    if (doubleval($vimporte) && $vimporte > 0) {
                         //$idviaje, $empresa, $responsable, $destino, $cantMaxpasajeros, $vimporte
                         $viaje = new Viaje();
                         $viaje->cargarDatos(null, $empresa, $responsable, $destino, $cantMaxpasajeros, $vimporte);
@@ -371,7 +374,7 @@
                     case 4:
                         echo "--- Ingrese nueva cantidad maxima de pasajeros: ";
                         $cantMaxpasajeros = trim(fgets(STDIN));
-                        if (is_int($cantMaxpasajeros)) {
+                        if (intval($cantMaxpasajeros)) {
                             $pasajeros = $viaje->obtenerPasajeros();
                             if (count($pasajeros) <= $cantMaxpasajeros) {
                                 $viaje->setVcantmaxpasajeros($cantMaxpasajeros);
@@ -379,7 +382,7 @@
                                 echo "\n------------ Valor ingresado debe ser mayor o igual a la cantidad actual de pasajeros ------------\n";
                             }
                         } else {
-                            echo "\n---------------- Valor ingresado debe ser numero entero ----------------\n";
+                            echo "\n---------------- Valor ingresado debe ser numero entero positivo ----------------\n";
                         }
                         break;
                     case 5:
@@ -412,6 +415,7 @@
      */
     function opcionesViaje() {
         echo <<<END
+
             |************ Viaje ***********|
             |                              |
             |        (0) Cancelar          |
@@ -428,7 +432,8 @@
             |                              |
             |     (6) Aplicar cambios      |
             |                              |
-            -******************************-\n
+            -******************************-
+
             END;
     }
 
@@ -484,7 +489,7 @@
                 }
             }
         } else {
-            echo "\n------------------------- No existe viaje con id ingresado -------------------------n";
+            echo "\n------------------------- No existe viaje con id ingresado -------------------------\n";
         }
     }
 
@@ -513,7 +518,7 @@
         echo "\n------------------------- Solicitaremos datos del responsable -------------------------\n";
         echo "--- Ingrese numero de licencia: ";
         $numLicencia = trim(fgets(STDIN));
-        if (is_int($numLicencia)) {
+        if (intval($numLicencia)) {
             echo "--- Ingrese nombre: ";
             $nombre = trim(fgets(STDIN));
             echo "--- Ingrese apellido: ";
@@ -525,7 +530,7 @@
             $responsable->insertar();
             echo "\n------------------------- El responsable con numero empleado ".$responsable->getRnumeroempleado()." fue ingresado en la BD -------------------------\n";
         } else {
-            echo "\n------------------------- Valor ingresado debe ser numero entero -------------------------\n";
+            echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";
         }
     }
 
@@ -556,10 +561,10 @@
                     case 1:
                         echo "--- Ingrese nuevo numero de licencia: ";
                         $numLicencia = trim(fgets(STDIN));
-                        if (is_int($numLicencia)) {
+                        if (intval($numLicencia)) {
                             $responsable->setRnumerolicencia($numLicencia);
                         } else {
-                            echo "\n------------------------- Valor ingresado no es numero entero -------------------------\n";
+                            echo "\n------------------------- Valor ingresado debe ser numero entero positivo -------------------------\n";
                         }
                         break;
                     case 2:
@@ -593,6 +598,7 @@
      */
     function opcionesResponsable() {
         echo <<<END
+
             |******* Responsable ********|
             |                            |
             |      (0) Cancelar          |
@@ -607,7 +613,8 @@
             |                            |
             |    (4) Aplicar cambios     |
             |                            |
-            -****************************-\n
+            -****************************-
+
             END;
     }
 
@@ -678,7 +685,7 @@
         echo "\n------------------------- Solicitaremos datos del pasajero  -------------------------\n";
         echo "--- Ingrese numero de dni: ";
         $dni = trim(fgets(STDIN));
-        if (is_int($dni) && $dni > 0) {
+        if (intval($dni) && $dni > 0) {
             $pasajero = new Pasajero();
             //Verifico que no exista dicho dni en la bd
             if (!($pasajero->buscarDatos($dni))) {
@@ -694,7 +701,7 @@
                         $apellido = trim(fgets(STDIN));
                         echo "--- Ingrese numero de telefono: ";
                         $telefono = trim(fgets(STDIN));
-                        if (is_int($telefono) && $telefono > 0) {
+                        if (intval($telefono) && $telefono > 0) {
                             //$dni, $nombre, $apellido, $telefono, $viaje
                             $pasajero->cargarDatos($dni, $nombre, $apellido, $telefono, $viaje);
                             //Inserto pasajero en la base de datos
@@ -755,7 +762,7 @@
                     case 3:
                         echo "--- Ingrese nuevo telefono: ";
                         $telefono = trim(fgets(STDIN));
-                        if (is_int($telefono) && $telefono > 0) {
+                        if (intval($telefono) && $telefono > 0) {
                             $pasajero->setPtelefono($telefono);
                         } else {
                             echo "\n------------------------- Valor ingresado debe ser entero positivo -------------------------\n";
@@ -797,6 +804,7 @@
      */
     function opcionesPasajero() {
         echo <<<END
+
             |******* Pasajero ********|
             |                         |
             |     (0) Cancelar        |
@@ -812,7 +820,8 @@
             |                         |
             |   (5) Aplicar cambios   |
             |                         |
-            -*************************-\n
+            -*************************-
+            
             END;
     }
 
