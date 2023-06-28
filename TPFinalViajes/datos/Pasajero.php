@@ -221,8 +221,8 @@
             return ("DNI: ".$this->getPdocumento().
                 "\nNombre: ".$this->getPnombre(). 
                 "\nApellido: ".$this->getPapellido().
-                "\nTelefono: ".$this->getPtelefono().
-                "\nViaje: ".($this->getViaje())->getIdviaje()."\n");
+                "\nTelefono: ".$this->getPtelefono()."\n".
+                "\n".($this->getViaje())."\n");
         }
     }
 ?>
